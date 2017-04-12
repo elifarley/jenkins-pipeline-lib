@@ -22,3 +22,15 @@ test -e target || mkdir -p target
 DEBUG=1 dockerize-project
 
 """ }
+
+def dockerPush() { sh """
+pwd
+
+mkdir -p .~/shell-lib
+curl -fsSL -H 'Cache-Control: no-cache' https://github.com/elifarley/shell-lib/archive/master.tar.gz | \
+tar -zx --strip-components 1 -C .~/shell-lib && \
+chmod +x .~/shell-lib/bin/* && PATH="$PWD/.~/shell-lib/bin:$PATH"
+
+DEBUG=1 jenkins-docker-push \
+  "$UPSTREAM_JOB_NAME" "$UPSTREAM_BUILD_NUMBER" "$UPSTREAM_GIT_COMMIT" "$DOCKER_REPO"
+""" }
