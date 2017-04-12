@@ -33,5 +33,5 @@ tar -zx --strip-components 1 -C .~/shell-lib && \
 chmod +x .~/shell-lib/bin/* && PATH="$PWD/.~/shell-lib/bin:$PATH"
 
 DEBUG=1 jenkins-docker-push \
-"${UPSTREAM_JOB_NAME:-env.JOB_NAME}" "${UPSTREAM_BUILD_NUMBER:-env.BUILD_NUMBER}" "${UPSTREAM_GIT_COMMIT:-env.GIT_COMMIT}" "env.DOCKER_REPO"
+"${env.JOB_NAME}" "${env.BUILD_NUMBER}" "${env.GIT_COMMIT}" "${env.DOCKER_REPO}"
 """ }
