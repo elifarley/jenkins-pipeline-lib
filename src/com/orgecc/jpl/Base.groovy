@@ -22,7 +22,15 @@ test -e target || mkdir -p target
 DEBUG=1 dockerize-project
 
 """ }
+/**
+Example:
+import com.orgecc.jpl.Base
+def jplb = new com.orgecc.jpl.Base()
 
+withEnv(["GIT_COMMIT=${jplb.getCommitId()}", "DOCKER_REPO=my-repo"]) {
+  jplb.dockerPush()
+}
+*/
 def dockerPush() { sh """
 set -x
 pwd
