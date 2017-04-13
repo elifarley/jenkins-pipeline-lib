@@ -21,7 +21,10 @@ test -e target || mkdir -p target
 
 DEBUG=1 dockerize-project
 
-""" }
+"""
+  archiveArtifacts artifacts: 'target/app.tgz'
+}
+
 /**
 Example:
 import com.orgecc.jpl.Base
@@ -31,7 +34,7 @@ withEnv(["GIT_COMMIT=${jplb.getCommitId()}", "DOCKER_REPO=my-repo"]) {
   jplb.dockerPush()
 }
 */
-def dockerPush() { withEnv(["PATH=${env.PWD}/.~/shell-lib/bin:${env.PATH}"]) { sh """
+def dockerPush() { withEnv(["PATH=$WORKSPACE/.~/shell-lib/bin:${env.PATH}"]) { sh """
 set -x
 pwd
 
