@@ -31,17 +31,17 @@ withEnv(["GIT_COMMIT=${jplb.getCommitId()}", "DOCKER_REPO=my-repo"]) {
   jplb.dockerPush()
 }
 */
-def dockerPush() { sh """
+def dockerPush() { withEnv(["PATH=${env.PWD}/.~/shell-lib/bin:${env.PATH}"]) { sh """
 set -x
 pwd
 
 mkdir -p .~/shell-lib
 curl -fsSL -H 'Cache-Control: no-cache' https://github.com/elifarley/shell-lib/archive/master.tar.gz | \
 tar -zx --strip-components 1 -C .~/shell-lib && \
-chmod +x .~/shell-lib/bin/* && export PATH="$PWD/.~/shell-lib/bin:$PATH"
+chmod +x .~/shell-lib/bin/*
 echo PATH: $PATH
 which jenkins-docker-push
 
 DEBUG=1 jenkins-docker-push \
 "${env.JOB_NAME}" "${env.BUILD_NUMBER}" "${env.GIT_COMMIT}" "${env.DOCKER_REPO}"
-""" }
+"""}}
