@@ -40,6 +40,8 @@ curl -fsSL -H 'Cache-Control: no-cache' https://github.com/elifarley/shell-lib/a
 tar -zx --strip-components 1 -C .~/shell-lib && \
 chmod +x .~/shell-lib/bin/* && PATH="$PWD/.~/shell-lib/bin:$PATH"
 
+which jenkins-docker-push
+
 DEBUG=1 jenkins-docker-push \
 "${env.JOB_NAME}" "${env.BUILD_NUMBER}" "${env.GIT_COMMIT}" "${env.DOCKER_REPO}"
 """ }
