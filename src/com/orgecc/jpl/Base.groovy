@@ -20,7 +20,6 @@ chmod +x .~/shell-lib/bin/*
 test -e target || mkdir -p target 
 
 DEBUG=1 dockerize-project
-
 """
   archiveArtifacts artifacts: 'target/app.tgz'
 }}
@@ -30,9 +29,7 @@ Example:
 import com.orgecc.jpl.Base
 def jplb = new com.orgecc.jpl.Base()
 
-withEnv(["GIT_COMMIT=${jplb.getCommitId()}", "DOCKER_REPO=my-repo"]) {
-  jplb.dockerPush()
-}
+jplb.dockerPush('my-repo')
 */
 def dockerPush(String dockerRepo) { withEnv(["PATH=$WORKSPACE/.~/shell-lib/bin:${env.PATH}"]) { sh """
 set -x
@@ -42,5 +39,6 @@ tar -zx --strip-components 1 -C .~/shell-lib && \
 chmod +x .~/shell-lib/bin/*
 
 DEBUG=1 jenkins-docker-push \
-"${env.JOB_NAME}" "${env.BUILD_NUMBER}" "${getCommitId()}" "${dockerRepo}"
+  "${env.JOB_NAME}" "${env.BUILD_NUMBER}" "${getCommitId()}" "${dockerRepo}"
+
 """}}
