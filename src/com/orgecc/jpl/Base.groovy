@@ -22,9 +22,7 @@ test -e target || mkdir -p target
 DEBUG=1 dockerize-project
 """ }
 
-  stage('Archive app.tgz') {
-    archiveArtifacts artifacts: 'target/app.tgz'
-  }
+  archiveArtifacts artifacts: 'target/app.tgz'
 
 }}
 
