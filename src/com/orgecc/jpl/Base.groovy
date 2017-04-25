@@ -10,7 +10,8 @@ def shManaged(String scriptID) {
   }
 }
 
-def dockerizeProject() { withEnv(["PATH=$WORKSPACE/.~/shell-lib/bin:${env.PATH}"]) { stage('Dockerize') { sh """
+def dockerizeProject() { withEnv(["PATH=$WORKSPACE/.~/shell-lib/bin:${env.PATH}"]) { stage('Dockerize') {
+  sh """
 set -x
 mkdir -p .~/shell-lib
 curl -H 'Cache-Control: no-cache' -fsSL https://github.com/elifarley/shell-lib/archive/master.tar.gz | \
@@ -33,7 +34,7 @@ def jplb = new com.orgecc.jpl.Base()
 
 jplb.dockerPush('my-repo')
 */
-def dockerPush(String dockerRepo) { withEnv(["PATH=$WORKSPACE/.~/shell-lib/bin:${env.PATH}"]) { stage("Docker push to ${dockerRepo}") { sh """
+def dockerPush(String dockerRepo) { withEnv(["PATH=$WORKSPACE/.~/shell-lib/bin:${env.PATH}"]) { stage("Docker push to ${dockerRepo}") {sh """
 set -x
 mkdir -p .~/shell-lib
 curl -fsSL -H 'Cache-Control: no-cache' https://github.com/elifarley/shell-lib/archive/master.tar.gz | \
