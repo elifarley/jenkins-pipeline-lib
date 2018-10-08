@@ -2,7 +2,14 @@ package com.orgecc.jpl
 
 def shc(String commands) { sh(returnStdout: true, script: commands).trim() }
 
-def getCommitId() { shc 'git rev-parse HEAD' }
+def getCommitId() { shc """
+echo "${GIT_COMMIT:-${MERCURIAL_REVISION:-$(
+    if test -d "$1"; then cd "$1"; fi
+    test -d .git && git 2>/dev/null rev-parse HEAD \
+    || \
+    test -d .hg && hg log -r . --template '{node}\n'
+  )}}"
+""" }
 
 def shManaged(String scriptID) {
   configFileProvider([configFile(fileId: "org.jenkinsci.plugins.managedscripts.${scriptID}", targetLocation: "/tmp/${scriptID}.sh", variable: 'script')]) {
